@@ -21,7 +21,7 @@ markdown-it-py==2.2.0
 MarkupSafe==2.1.1
 mccabe==0.7.0
 mdurl==0.1.2
-mongoengine==0.24.1
+mongoengine==0.29.1
 mongomock==4.1.2
 mypy-extensions==1.0.0
 packaging==23.1
