@@ -5,6 +5,11 @@ app = Flask(__name__)
 api = Api(app)
 
 
+class Home(Resource):
+    def get(self):
+        return {"path": "home"}
+
+
 class Users(Resource):
     def get(self):
         return {"message": "User 1"}
@@ -18,6 +23,7 @@ class User(Resource):
         return {"message": f"user and {cpf}"}
 
 
+api.add_resource(Home, '/')
 api.add_resource(Users, '/users')
 api.add_resource(User, '/user', '/user/<string:cpf>')
 
