@@ -1,7 +1,7 @@
 import re
-from flask import jsonify
 from flask_restful import Resource, reqparse
 from mongoengine import NotUniqueError
+from datetime import datetime
 from .model import UserModel
 
 
@@ -45,7 +45,9 @@ class Home(Resource):
 
 class Users(Resource):
     def get(self):
-        return jsonify(UserModel.objects())
+        users = UserModel.objects()
+        users_list = [user.to_dict() for user in users]
+        return users_list, 200
 
 
 class User(Resource):
@@ -81,9 +83,15 @@ class User(Resource):
             return {"message": "CPF is invalid!"}, 400
 
         try:
+            data["birth_date"] = datetime.strptime(data["birth_date"], "%d-%m-%Y")
+        except ValueError:
+            return {"message": "birth_date must be in YYYY-MM-DD format"}, 400
+
+        try:
             response = UserModel(**data).save()
             return {
-                "message": f"User {response.first_name} {response.last_name} successfully created!"
+                "message": f"User {response.first_name} {response.last_name} successfully created!",
+                "user": response.to_dict()
             }, 201
         except NotUniqueError:
             return {
@@ -91,9 +99,9 @@ class User(Resource):
             }, 400
 
     def get(self, cpf):
-        response = UserModel.objects(cpf=cpf)
+        response = UserModel.objects(cpf=cpf).first()
         if response:
-            return jsonify(response)
+            return response.to_dict(), 200
         else:
             return {
                 "message": 'User does not exist in database.'
