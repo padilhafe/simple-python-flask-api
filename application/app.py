@@ -104,5 +104,5 @@ class User(Resource):
             return response.to_dict(), 200
         else:
             return {
-                "message": 'User does not exist in database.'
+                "message": "User does not exist in database."
             }, 400
