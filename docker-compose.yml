@@ -11,7 +11,12 @@ services:
       context: .
     restart: always
     environment:
-      - FLASK_ENV=development
+      FLASK_ENV: development
+      MONGODB_DB: ${MONGODB_DB}
+      MONGODB_HOST: ${MONGODB_HOST}
+      MONGODB_PORT: ${MONGODB_PORT}
+      MONGODB_USERNAME: ${MONGODB_USERNAME}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
     ports:
       - 5000:5000
     depends_on:
