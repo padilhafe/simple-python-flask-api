@@ -2,6 +2,12 @@ import os
 import mongomock
 
 
+class ProdConfig:
+    MONGODB_SETTINGS = {
+        'host': os.getenv("MONGODB_ATLAS_URI"),
+    }
+
+
 class DevConfig():
     MONGODB_SETTINGS = {
         'db': os.getenv('MONGODB_DB'),
