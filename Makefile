@@ -1,6 +1,6 @@
 .DEFAULT: compose
 
-APP = restapi
+APP = python-rest
 
 test:
 	@flake8 . --exclude .venv
@@ -12,8 +12,8 @@ compose:
 
 heroku:
 	@heroku container:login
-	@heroku container:push -a python-rest web
-	@heroku container:release -a python-rest web
+	@heroku container:push -a $(APP) web
+	@heroku container:release -a $(APP) web
 
 logs:
-	@heroku logs --tail -a python-rest
+	@heroku logs --tail -a $(APP)
