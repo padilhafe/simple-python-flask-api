@@ -1,6 +1,6 @@
 import pytest
 from application import create_app
-from config import MockConfig
+from config.mock import MockConfig
 
 
 class TestApplication():
