@@ -32,3 +32,4 @@ platformdirs==3.4.0
 packaging==23.1
 stevedore==5.0.0
 zipp==3.8.0
+setuptools==80.9.0
