@@ -3,6 +3,7 @@
 APP = python-rest
 
 test:
+	@black .
 	@flake8 . --exclude .venv
 	@pytest -v -W ignore::DeprecationWarning -W ignore::UserWarning
 

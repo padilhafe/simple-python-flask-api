@@ -10,9 +10,9 @@ def create_app(config):
     init_db(app)
 
     api = Api(app)
-    api.add_resource(Home, '/')
-    api.add_resource(HealthCheck, '/health')
-    api.add_resource(Users, '/users')
-    api.add_resource(User, '/user', '/user/<string:cpf>')
+    api.add_resource(Home, "/")
+    api.add_resource(HealthCheck, "/health")
+    api.add_resource(Users, "/users")
+    api.add_resource(User, "/user", "/user/<string:cpf>")
 
     return app
