@@ -2,7 +2,7 @@ import re
 from flask_restful import Resource, reqparse
 from mongoengine import NotUniqueError
 from datetime import datetime
-from .model import UserModel
+from .model import UserModel, HealthCheckModel
 
 
 _user_parser = reqparse.RequestParser()
@@ -48,6 +48,21 @@ class Users(Resource):
         users = UserModel.objects()
         users_list = [user.to_dict() for user in users]
         return users_list, 200
+
+
+class HealthCheck(Resource):
+    def get(self):
+        try:
+            response = HealthCheckModel.objects(status="ok")
+            if response:
+                return {"status": "ok"}, 200
+            else:
+                HealthCheckModel(status="ok").save()
+                return {"status": "ok"}, 200
+        except Exception as e:
+            return {
+                "error": str(e)
+            }, 500
 
 
 class User(Resource):
