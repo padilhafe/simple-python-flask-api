@@ -3,8 +3,7 @@ from application import create_app
 from config.mock import MockConfig
 
 
-class TestApplication():
-
+class TestApplication:
     @pytest.fixture()
     def client(self):
         app = create_app(MockConfig)
@@ -17,7 +16,7 @@ class TestApplication():
             "last_name": "Surname",
             "cpf": "057.065.580-35",
             "email": "first.surname@hotmail.com",
-            "birth_date": "01-11-1966"
+            "birth_date": "01-11-1966",
         }
 
     @pytest.fixture()
@@ -27,23 +26,23 @@ class TestApplication():
             "last_name": "Surname",
             "cpf": "057.065.580-34",
             "email": "first.surname@hotmail.com",
-            "birth_date": "01-11-1966"
+            "birth_date": "01-11-1966",
         }
 
     def test_get_users(self, client):
-        response = client.get('/users')
+        response = client.get("/users")
         assert response.status_code == 200
 
     def test_post_user(self, client, valid_user, invalid_user):
-        response = client.post('/user', json=valid_user)
+        response = client.post("/user", json=valid_user)
         assert response.status_code == 201
         assert b"successfully created" in response.data
 
-        response = client.post('/user', json=invalid_user)
+        response = client.post("/user", json=invalid_user)
         assert response.status_code == 400
         assert b"CPF is invalid!" in response.data
 
-        response = client.post('/user', json=valid_user)
+        response = client.post("/user", json=valid_user)
         assert response.status_code == 400
         assert b"CPF already exists in database!" in response.data
 
@@ -59,3 +58,20 @@ class TestApplication():
         response = client.get(f'/user/{invalid_user["cpf"]}')
         assert response.status_code == 400
         assert b"User does not exist in database." in response.data
+
+    def test_patch_user(self, client, valid_user):
+        valid_user["first_name"] = "Altered"
+        response = client.patch("/user", json=valid_user)
+        assert response.status_code == 200
+        assert b"updated" in response.data
+
+        valid_user["cpf"] = "577.501.030-23"
+        response = client.patch("/user", json=valid_user)
+        assert response.status_code == 400
+        assert b"User does not exist in database!" in response.data
+
+    def test_delete_user(self, client, valid_user):
+        valid_user["first_name"] = "Altered"
+        response = client.delete(f'/user/{valid_user["cpf"]}')
+        assert response.status_code == 200
+        assert b"deleted" in response.data

@@ -16,3 +16,7 @@ class UserModel(db.Document):
             "email": self.email,
             "birth_date": self.birth_date.strftime("%d-%m-%Y"),
         }
+
+
+class HealthCheckModel(db.Document):
+    status = db.StringField(required=True)

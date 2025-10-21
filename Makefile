@@ -3,7 +3,9 @@
 APP = python-rest
 
 test:
+	@black .
 	@flake8 . --exclude .venv
+	@bandit -r . -x '/.venv/','/tests/'
 	@pytest -v -W ignore::DeprecationWarning -W ignore::UserWarning
 
 compose:

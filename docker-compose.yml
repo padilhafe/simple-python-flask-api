@@ -24,6 +24,7 @@ services:
       - mongo
     volumes:
       - ./application:/app/application
+      - ./config:/app/config
 
   mongo-express:
     image: mongo-express:1.0.2-20-alpine3.19
